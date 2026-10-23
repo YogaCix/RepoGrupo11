@@ -19,9 +19,72 @@
     <main>
         <!-- Sección 1: Gestión de Clientes (Integrante 2) -->
         <section id="modulo-clientes">
-            <h2>Gestión de Clientes</h2>
-            <div id="contenedor-clientes"></div>
-        </section>
+    <h2>Gestión de Clientes</h2>
+
+    <form id="formulario-cliente">
+        <input type="hidden" id="cliente-id">
+
+        <div>
+            <label for="nombre-cliente">Nombre completo:</label>
+            <input
+                type="text"
+                id="nombre-cliente"
+                name="nombre"
+                placeholder="Ingrese el nombre completo"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="telefono-cliente">Teléfono:</label>
+            <input
+                type="tel"
+                id="telefono-cliente"
+                name="telefono"
+                placeholder="Ingrese el número de teléfono"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="correo-cliente">Correo electrónico:</label>
+            <input
+                type="email"
+                id="correo-cliente"
+                name="correo"
+                placeholder="Ingrese el correo electrónico"
+                required
+            >
+        </div>
+
+        <button type="submit" id="btn-guardar-cliente">
+            Registrar cliente
+        </button>
+
+        <button type="button" id="btn-cancelar-edicion" hidden>
+            Cancelar modificación
+        </button>
+    </form>
+
+    <h3>Lista de clientes registrados</h3>
+
+    <div id="contenedor-clientes">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre completo</th>
+                    <th>Teléfono</th>
+                    <th>Correo electrónico</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody id="lista-clientes">
+                <!-- Los clientes aparecerán aquí mediante JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</section>
 
         <!-- Sección 2: Gestión de Servicios (Integrante 3) -->
         <section id="modulo-servicios">
