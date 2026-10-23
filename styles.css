@@ -1,0 +1,168 @@
+
+/* Estilos generales del sistema */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #263238;
+}
+
+header {
+    background-color: #263f73;
+    color: white;
+    padding: 24px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    margin-top: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    background-color: #4267a5;
+    padding: 10px 16px;
+    border-radius: 6px;
+}
+
+nav a:hover {
+    background-color: #547fbd;
+}
+
+/* Módulo de gestión de clientes */
+#modulo-clientes {
+    max-width: 1000px;
+    margin: 0 auto 25px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+#modulo-clientes h2 {
+    color: #263f73;
+    margin-top: 0;
+    border-bottom: 2px solid #e1e7f0;
+    padding-bottom: 12px;
+}
+
+#formulario-cliente {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+#formulario-cliente div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#formulario-cliente label {
+    font-weight: bold;
+    color: #374151;
+}
+
+#formulario-cliente input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+#formulario-cliente input:focus {
+    outline: 2px solid #8bb5f0;
+    border-color: #4267a5;
+}
+
+#formulario-cliente button,
+#lista-clientes button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#btn-guardar-cliente {
+    background-color: #263f73;
+    color: white;
+}
+
+#btn-guardar-cliente:hover {
+    background-color: #365794;
+}
+
+#btn-cancelar-edicion {
+    background-color: #e5e7eb;
+    color: #263238;
+}
+
+#lista-clientes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#lista-clientes th,
+#lista-clientes td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#lista-clientes th {
+    background-color: #263f73;
+    color: white;
+}
+
+#lista-clientes tr:hover {
+    background-color: #f1f5f9;
+}
+
+#lista-clientes button {
+    margin: 3px;
+    background-color: #4267a5;
+    color: white;
+}
+
+#lista-clientes button:hover {
+    background-color: #263f73;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    #modulo-clientes {
+        padding: 15px;
+    }
+
+    #modulo-clientes > div {
+        overflow-x: auto;
+    }
+
+    #lista-clientes th,
+    #lista-clientes td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
