@@ -125,3 +125,172 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mostrarClientes();
 });
+
+
+
+   // MODULO DE SERVICIOS
+document.addEventListener("DOMContentLoaded", () => {
+    const formularioServicio = document.getElementById("formulario-servicio");
+    const servicioId = document.getElementById("servicio-id");
+    const nombreServicio = document.getElementById("nombre-servicio");
+    const precioServicio = document.getElementById("precio-servicio");
+    const duracionServicio = document.getElementById("duracion-servicio");
+    const botonGuardarServicio = document.getElementById("btn-guardar-servicio");
+    const botonCancelarServicio = document.getElementById("btn-cancelar-edicion-servicio");
+    const listaServicios = document.getElementById("lista-servicios");
+
+    if (!formularioServicio || !listaServicios) {
+        console.error("No se encontraron los elementos del módulo de servicios.");
+        return;
+    }
+
+    let servicios = [];
+
+    try {
+        servicios = JSON.parse(
+            localStorage.getItem("serviciosSistemaReservas") || "[]"
+        );
+    } catch (error) {
+        servicios = [];
+    }
+
+    function guardarServicios() {
+        localStorage.setItem(
+            "serviciosSistemaReservas",
+            JSON.stringify(servicios)
+        );
+    }
+
+    function formatearPrecio(valor) {
+        return `S/ ${Number(valor).toFixed(2)}`;
+    }
+
+    function mostrarServicios() {
+        listaServicios.replaceChildren();
+
+        if (servicios.length === 0) {
+            const filaVacia = document.createElement("tr");
+            const celdaVacia = document.createElement("td");
+            celdaVacia.colSpan = 4;
+            celdaVacia.textContent = "No hay servicios registrados aún.";
+            filaVacia.appendChild(celdaVacia);
+            listaServicios.appendChild(filaVacia);
+            return;
+        }
+
+        servicios.forEach((servicio) => {
+            const fila = document.createElement("tr");
+
+            const celdas = [
+                servicio.nombre,
+                formatearPrecio(servicio.precio),
+                `${servicio.duracion} min`
+            ];
+
+            celdas.forEach((dato) => {
+                const celda = document.createElement("td");
+                celda.textContent = dato;
+                fila.appendChild(celda);
+            });
+
+            const celdaAcciones = document.createElement("td");
+
+            const botonEditar = document.createElement("button");
+            botonEditar.type = "button";
+            botonEditar.textContent = "Modificar";
+            botonEditar.addEventListener("click", () => {
+                servicioId.value = servicio.id;
+                nombreServicio.value = servicio.nombre;
+                precioServicio.value = servicio.precio;
+                duracionServicio.value = servicio.duracion;
+
+                botonGuardarServicio.textContent = "Guardar cambios";
+                botonCancelarServicio.hidden = false;
+                nombreServicio.focus();
+            });
+
+            const botonEliminar = document.createElement("button");
+            botonEliminar.type = "button";
+            botonEliminar.textContent = "Eliminar";
+            botonEliminar.addEventListener("click", () => {
+                const confirmar = confirm(
+                    `¿Deseas eliminar el servicio "${servicio.nombre}"?`
+                );
+
+                if (confirmar) {
+                    servicios = servicios.filter(
+                        (item) => item.id !== servicio.id
+                    );
+                    guardarServicios();
+                    mostrarServicios();
+                }
+            });
+
+            celdaAcciones.append(botonEditar, botonEliminar);
+            fila.appendChild(celdaAcciones);
+            listaServicios.appendChild(fila);
+        });
+    }
+
+    function cancelarModificacionServicio() {
+        formularioServicio.reset();
+        servicioId.value = "";
+        botonGuardarServicio.textContent = "Registrar servicio";
+        botonCancelarServicio.hidden = true;
+    }
+
+    formularioServicio.addEventListener("submit", (evento) => {
+        evento.preventDefault();
+
+        const nombre = nombreServicio.value.trim();
+        const precio = parseFloat(precioServicio.value);
+        const duracion = parseInt(duracionServicio.value, 10);
+
+        if (!nombre || Number.isNaN(precio) || Number.isNaN(duracion)) {
+            alert("Completa todos los campos.");
+            return;
+        }
+
+        if (precio < 0) {
+            alert("El precio no puede ser negativo.");
+            return;
+        }
+
+        if (duracion <= 0) {
+            alert("La duración debe ser mayor a 0 minutos.");
+            return;
+        }
+
+        const datos = {
+            nombre,
+            precio,
+            duracion
+        };
+
+        if (servicioId.value) {
+            servicios = servicios.map((servicio) =>
+                servicio.id === servicioId.value
+                    ? { ...servicio, ...datos }
+                    : servicio
+            );
+        } else {
+            servicios.push({
+                id: crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : `${Date.now()}-${Math.random()}`,
+                ...datos
+            });
+        }
+
+        guardarServicios();
+        mostrarServicios();
+        cancelarModificacionServicio();
+    });
+
+    botonCancelarServicio.addEventListener(
+        "click",
+        cancelarModificacionServicio
+    );
+
+    mostrarServicios();
+});
